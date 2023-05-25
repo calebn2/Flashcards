@@ -1,11 +1,16 @@
-var flashcards = [
-  { front: "Front 1", back: "Back 1" },
-  { front: "Front 2", back: "Back 2" },
-  { front: "Front 3", back: "Back 3" }
-];
-
 var currentCardIndex = 0;
-var flashcardElement = document.querySelector('.flashcard');
+var flashcardElement = document.getElementById('flashcard');
+var flashcards;
+
+function loadFlashcards() {
+  fetch('flashcards.json')
+    .then(response => response.json())
+    .then(data => {
+      flashcards = data;
+      updateFlashcard();
+    })
+    .catch(error => console.error('Error loading flashcards:', error));
+}
 
 function toggleFlashcard() {
   var currentCard = flashcards[currentCardIndex];
@@ -34,3 +39,5 @@ function updateFlashcard() {
   var currentCard = flashcards[currentCardIndex];
   flashcardElement.innerHTML = currentCard.front;
 }
+
+loadFlashcards();
